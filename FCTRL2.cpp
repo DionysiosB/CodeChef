@@ -1,27 +1,37 @@
-#include <iostream>
-using namespace std;
+#include <cstdio>
+#include <vector>
 
-double factorial(int n){
-    if(n < 0){return 0;}
-    if(n <= 1){return 1;}
+std::vector<int> smallFactorial(int n){
 
-    double output = 1;
-    while(n >= 1){output *= (n--);}
-    return output;
+    std::vector<int> result(1,1);
+    int carry(0);
+
+    while(n > 0){
+
+        for(int k = 0; k < result.size(); k++){
+            result[k] = n * result[k] + carry;
+            carry = result[k] / 10; 
+            result[k] %= 10;
+        }
+        while(carry > 0){result.push_back(carry % 10); carry /= 10;}
+
+        --n;
+    }
+
+    return result;
 
 }
 
 
 int main(int argc, char * argv[]){
 
-    size_t N; cin >> N;
-
-    int inputNumber = 0;
-    cout.precision(200);
-
-    for(size_t k = 0; k < N ; k++){
-        cin  >> inputNumber;
-        cout << factorial(inputNumber) << endl;
+    int numCases(0); scanf("%d", &numCases);
+    while(numCases--){
+        int input(0); scanf("%d", &input);
+        std::vector<int> output = smallFactorial(input);
+        for(int k = output.size() - 1; k >= 0; k--){printf("%d", output[k]);} puts("");
     }
+
+
     return 0;
 }
