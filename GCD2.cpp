@@ -1,32 +1,21 @@
-#include<cstdio>
-#include<vector>
+#include<iostream>
 
 long gcd (long a, long b){return (b == 0) ? a : gcd (b, a%b);}
 
-
-long findRemainder(std::vector<int> largeNum, long div){
-    long rem(0);
-    for(int k = 0; k < largeNum.size(); k++){rem = (10 * rem + largeNum[k]) % div;}
-    return rem;
-}
-
 int main(){
 
-    int numCases(0); scanf("%d\n", &numCases);
-    while(numCases--){
+    int t(0); scanf("%d\n", &t);
+    while(t--){
+        long a; std::string b; std::cin >> a >> b;
+        if(a == 0){std::cout << b << std::endl; continue;}
 
-        long first(0); scanf("%ld ", &first);
-
-        std::vector<int> second; char temp; 
-        while(scanf("%c", &temp)){
-            if(temp == '\n'){break;}
-            second.push_back(temp - '0');
+        long c(0);
+        for(int p = 0; p < b.size(); p++){
+            c = 10 * c + (b[p] - '0');
+            c %= a;
         }
-
-        if(first == 0){for(int k = 0; k < second.size(); k++){printf("%d", second[k]);}; puts("");}
-        else if(first == 1){puts("1");}
-        else{printf("%ld\n", gcd(first, findRemainder(second, first)));}
-
+        
+        std::cout << gcd(a, c) << std::endl;
     }
     return 0;
 }
