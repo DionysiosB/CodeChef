@@ -1,31 +1,21 @@
 #include <cstdio>
-#include <iostream>
 #include <vector>
 #include <algorithm>
-
-long absVal(long a){return (a >= 0) ? a : (-a);}
-
-long compareAbsDiff(std::pair<long, long> a, std::pair<long, long> b){
-    return (absVal(a.first - a.second) > absVal(b.first - b.second));
-}
-
+typedef long long ll;
 
 int main(){
 
-    long n, x, y; scanf("%ld %ld %ld\n", &n, &x, &y);
-    std::vector<std::pair<long, long> > tips(n);
-    for(long p = 0; p < n; p++){scanf("%ld", &tips[p].first);}
-    for(long p = 0; p < n; p++){scanf("%ld", &tips[p].second);}
-    sort(tips.begin(), tips.end(), compareAbsDiff);
-    long long total(0);
-    for(long p = 0; p < n; p++){
-        long u = tips[p].first;
-        long v = tips[p].second;
-
-        if((u >= v) && (x > 0)){total += u; --x;}
-        else if((u < v) && (y > 0)){total += v; --y;}
-        else if(x > 0){total += u; --x;}
-        else if(y > 0){total += v; --y;}
+    ll n, x, y; scanf("%lld %lld %lld\n", &n, &x, &y);
+    std::vector<ll> a(n), b(n);
+    std::vector<std::pair<ll, ll> > d(n);
+    for(ll p = 0; p < n; p++){scanf("%lld", &a[p]);}
+    for(ll p = 0; p < n; p++){scanf("%lld", &b[p]);}
+    for(ll p = 0; p < n; p++){d[p].first = a[p] - b[p]; d[p].second = p;}
+    sort(d.rbegin(), d.rend());
+    ll total(0);
+    for(ll p = 0; p < n; p++){
+        ll diff = d[p].first; ll idx = d[p].second;
+        total += ((p < n - y) || (diff > 0 && p < x)) ? a[idx] : b[idx];
     }
 
     printf("%lld\n", total);
